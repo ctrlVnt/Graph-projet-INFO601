@@ -11,7 +11,7 @@ import java.util.Set;
  * generic complete graph
  * @param G for node's type
  * @param T for route's type
- * @author Lavric & Venturini
+ * @author Venturini & Lores & Trombert
  */
 public class Graph<G, T> {
   private HashSet<EntireRoute<G,T>> routes;

@@ -2,7 +2,7 @@ package minimalheap;
 
 /**
  * Exception throwable by the MinimalHeap library
- * @author Venturini & Lavric
+ * @author Venturini & Lores & Trombert
  *
  */
 public class MinimalHeapException extends Exception{

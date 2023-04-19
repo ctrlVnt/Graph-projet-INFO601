@@ -13,7 +13,7 @@ import java.util.Comparator;
  * It represents an array organized like a Minimal-Heap. Elements in the array respect a tree structure 
  * where the parent node is always smaller than the right and the left son. The order is also maintained
  * after the insertion of a new element.
- * @author Lavric & Venturini
+ * @author Venturini & Lores & Trombert
  * @param G type of the Minimal-Heap array elements
  */
 public class MinimalHeap<G>{

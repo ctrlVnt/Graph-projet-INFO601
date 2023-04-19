@@ -6,7 +6,7 @@ import java.lang.Double;
 
 /**
  * comparator for node-type objects
- * @author Venturini & Cosmin
+ * @author Venturini & Lores & Trombert
  */
 
 public class NodeComparator<S> implements Comparator<Node<S,Double>> {   //rivedere comparator che non funziona
