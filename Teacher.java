@@ -11,5 +11,12 @@ public class Teacher extends Person
     public String getSubject()
     {
         return subject;
-    }   
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+        "subject ='" + subject +
+        '}';
+    }
 }

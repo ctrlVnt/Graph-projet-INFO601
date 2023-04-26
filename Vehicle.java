@@ -32,4 +32,13 @@ public class Vehicle {
     {
         return model;
     }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+        "type ='" + type + '\'' +
+        ", brand ='" + brand + '\'' +
+        ", model ='" + model +
+        '}';
+    }
 }

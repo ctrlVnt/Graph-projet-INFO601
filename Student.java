@@ -19,4 +19,12 @@ public class Student extends Node
     {
         return universite;
     }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+        "formation ='" + formation + '\'' +
+        ", universite ='" + universite +
+        '}';
+    }
 }

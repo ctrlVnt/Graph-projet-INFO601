@@ -1,9 +1,9 @@
-public class Personne extends Node
+public class Person extends Node
 {    
     private String adresse;
     private int age;
 
-    public Personne(String adresse, int age)
+    public Person(String adresse, int age)
     {
         super(adresse);
         this.adresse = adresse;
@@ -18,5 +18,13 @@ public class Personne extends Node
     public String getAdresse()
     {
         return adresse;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+        "adresse ='" + adresse + '\'' +
+        ", age ='" + age +
+        '}';
     }
 }

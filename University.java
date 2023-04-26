@@ -18,4 +18,12 @@ public class University {
     {
         return city;
     }
+
+    @Override
+    public String toString() {
+        return "University{" +
+        "name ='" + name + '\'' +
+        ", city ='" + city +
+        '}';
+    }
 }
