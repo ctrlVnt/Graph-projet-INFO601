@@ -1,15 +1,22 @@
-public class Student extends Person
+public class Student extends Node
 {
-    private int year;
+    private String formation;
+    private String universite;
 
-    public Student(String name, int age, int year)
+    public Student(String formation, String universite)
     {
-        super(name, age);
-        this.year = year;
+        super(formation);
+        this.formation = formation;
+        this.universite = universite;
     }
 
-    public int getYear()
+    public String getFormation()
     {
-        return year;
+        return formation;
+    }
+
+    public String getUniversite()
+    {
+        return universite;
     }
 }

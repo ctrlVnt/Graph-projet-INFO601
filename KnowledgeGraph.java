@@ -29,21 +29,25 @@ public class KnowledgeGraph {
     }
 
     public static void main(String[] args) {
-        Node personne = new Node("personne");
-        Node animal = new Node("animal");
-        Node chat = new Node("chat");
-        Node chien = new Node("chien");
-    
-        KnowledgeGraph kg = new KnowledgeGraph();
-        kg.addNode(personne);
-        kg.addNode(animal);
-        kg.addNode(chat);
-        kg.addNode(chien);
-    
-        kg.addRelation(new Relation(personne, animal,"est_un"));
-        kg.addRelation(new Relation(animal, chat,"est_un"));
-        kg.addRelation(new Relation(animal, chien, "est_un"));
-    
-        System.out.println("Relations de 'animal': " + kg.getRelatedNodes(animal));
+        Node agent = new Node("agent");
+        Node LeGreco = new Node("Le Greco");
+        Node Person = new Node("foaf:Person");
+        Node objet = new Node("objeti");
+        Node imageq = new Node("imageq");
+
+        KnowledgeGraph kg2 = new KnowledgeGraph();
+        kg2.addNode(agent);
+        kg2.addNode(LeGreco);
+        kg2.addNode(Person);
+        kg2.addNode(objet);
+        kg2.addNode(imageq);
+
+        kg2.addRelation(new Relation(agent, LeGreco,"foaf:name"));
+        kg2.addRelation(new Relation(agent, Person,"foaf:name"));
+        kg2.addRelation(new Relation(agent, objet,"dc:creator"));
+        kg2.addRelation(new Relation(objet, imageq,"foaf:depiction"));
+
+        System.out.println("Relations de 'agent': " + kg2.getRelatedNodes(agent));
+        System.out.println("Relations de 'objetq': " + kg2.getRelatedNodes(objet));
     }
 }
