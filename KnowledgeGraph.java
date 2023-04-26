@@ -33,17 +33,17 @@ public class KnowledgeGraph {
         Node animal = new Node("animal");
         Node chat = new Node("chat");
         Node chien = new Node("chien");
-
+    
         KnowledgeGraph kg = new KnowledgeGraph();
         kg.addNode(personne);
         kg.addNode(animal);
         kg.addNode(chat);
         kg.addNode(chien);
-
-        kg.addRelation(new Relation(personne, animal));
-        kg.addRelation(new Relation(animal, chat));
-        kg.addRelation(new Relation(animal, chien));
-
+    
+        kg.addRelation(new Relation(personne, animal,"est_un"));
+        kg.addRelation(new Relation(animal, chat,"est_un"));
+        kg.addRelation(new Relation(animal, chien, "est_un"));
+    
         System.out.println("Relations de 'animal': " + kg.getRelatedNodes(animal));
     }
 }
