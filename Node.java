@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-public class Node<S> {
+/*public class Node<S> {
 
   private S nodeName;
 
@@ -16,12 +15,6 @@ public class Node<S> {
     this.nodeName = nodeName;
   }
   
-  /**
-   * Overrides the method that calculates the hash value
-   * If two objects are equal according to the equals(Object) method,
-   * then calling the hashCode method on each of the two objects must produce the
-   * same integer result.
-   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -46,8 +39,8 @@ public class Node<S> {
       }
     }
   }
-}
-=======
+}*/
+
 import java.util.Objects;
 
 public class Node {
@@ -78,4 +71,3 @@ public class Node {
         return Objects.hash(label);
     }
 }
->>>>>>> refs/remotes/origin/main
