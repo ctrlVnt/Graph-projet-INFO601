@@ -28,6 +28,35 @@ public class KnowledgeGraph {
         return relatedNodes;
     }
 
+    public Set<Node> bfs(Node startNode, Node targetNode) {
+        Queue<Node> queue = new LinkedList<>();
+        Set<Node> visited = new HashSet<>();
+    
+        queue.add(startNode);
+        visited.add(startNode);
+    
+        while (!queue.isEmpty()) {
+            Node currentNode = queue.poll();
+    
+            if (currentNode.equals(targetNode)) {
+                // abbiamo trovato il nodo di destinazione
+                return visited;
+            }
+    
+            // aggiungiamo i nodi adiacenti alla coda se non sono stati visitati
+            Set<Node> relatedNodes = getRelatedNodes(currentNode);
+            for (Node relatedNode : relatedNodes) {
+                if (!visited.contains(relatedNode)) {
+                    visited.add(relatedNode);
+                    queue.add(relatedNode);
+                }
+            }
+        }
+    
+        // il nodo di destinazione non è stato trovato
+        return null;
+    }
+
     public static void main(String[] args) {
         Node agent = new Node("agent");
         Node LeGreco = new Node("Le Greco");
@@ -49,5 +78,9 @@ public class KnowledgeGraph {
 
         System.out.println("Relations de 'agent': " + kg2.getRelatedNodes(agent));
         System.out.println("Relations de 'objetq': " + kg2.getRelatedNodes(objet));
+
+        System.out.println(kg2.bfs(agent, imageq));
+        System.out.println(kg2.bfs(agent, Person));
+        System.out.println(kg2.bfs(LeGreco, imageq));
     }
 }
