@@ -28,14 +28,17 @@ public class KnowledgeGraph {
         relations = new HashSet<>();
     }
 
+    //add node
     public void addNode(Node node) {
         nodes.add(node);
     }
 
+    //add relation from a node to b
     public void addRelation(Relation relation) {
         relations.add(relation);
     }
 
+    //get all nodes related to x node
     public Set<Node> getRelatedNodes(Node node) {
         Set<Node> relatedNodes = new HashSet<>();
         for (Relation relation : relations) {
@@ -46,6 +49,7 @@ public class KnowledgeGraph {
         return relatedNodes;
     }
 
+    //get all nodes related to x node BUT with label relation
     public Set<Node> getRelatedNodes(Node node, String label) {
         Set<Node> relatedNodes = new HashSet<>();
         for (Relation relation : relations) {
@@ -56,10 +60,7 @@ public class KnowledgeGraph {
         return relatedNodes;
     }
 
-    public Set<Node> getNodes() {
-        return nodes;
-    }
-
+    //BFS research alghoritm
     public Set<Node> bfs(Node startNode, Node targetNode) {
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
@@ -71,11 +72,9 @@ public class KnowledgeGraph {
             Node currentNode = queue.poll();
     
             if (currentNode.equals(targetNode)) {
-                // abbiamo trovato il nodo di destinazione
                 return visited;
             }
     
-            // aggiungiamo i nodi adiacenti alla coda se non sono stati visitati
             Set<Node> relatedNodes = getRelatedNodes(currentNode);
             for (Node relatedNode : relatedNodes) {
                 if (!visited.contains(relatedNode)) {
@@ -85,10 +84,10 @@ public class KnowledgeGraph {
             }
         }
     
-        // il nodo di destinazione non è stato trovato
         return null;
     }
 
+    //DFS research alghoritm
     public Set<Node> dfs(Node startNode, Node targetNode) {
         Set<Node> visited = new HashSet<>();
         Stack<Node> stack = new Stack<>();
@@ -116,6 +115,7 @@ public class KnowledgeGraph {
         return null;
     }
 
+    //Number of node with label string
     public int occurrencesNodes(Node startNode, Node targetNode, String label) {
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
@@ -149,6 +149,7 @@ public class KnowledgeGraph {
         return count;
     }
 
+    //find all nodes connected to startNode with label relation
     public Set<Node> find(Node startNode, Node targetNode, String label) {
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
@@ -166,6 +167,39 @@ public class KnowledgeGraph {
             Set<Node> relatedNodes = getRelatedNodes(currentNode, label);
 
             for (Node relatedNode : relatedNodes) {
+
+                if (!visited.contains(relatedNode)) {
+                    visited.add(relatedNode);
+                    queue.add(relatedNode);
+                }
+            }
+        }
+    
+        return null;
+    }
+
+    //find all nodes with label proprierty in the graph
+    public Set<Node> findElementsAssociated(Node startNode, Node targetNode, String label) {
+        Queue<Node> queue = new LinkedList<>();
+        Set<Node> visited = new HashSet<>();
+        Set<Node> res = new HashSet<>();
+    
+        queue.add(startNode);
+        visited.add(startNode);
+    
+        while (!queue.isEmpty()) {
+            Node currentNode = queue.poll();
+    
+            if (currentNode.equals(targetNode)) {
+                return res;
+            }
+    
+            Set<Node> relatedNodes = getRelatedNodes(currentNode);
+            for (Node relatedNode : relatedNodes) {
+                
+                if(relatedNode.getLabel().equals(label)){
+                    res.add(currentNode);
+                }
 
                 if (!visited.contains(relatedNode)) {
                     visited.add(relatedNode);
@@ -293,5 +327,7 @@ public class KnowledgeGraph {
         System.out.println("TEACHING b -> e : " + kg2.find(b, e, Relatinos.TEACHING.getText()));
         System.out.println("BFS b -> e : " + kg2.bfs(b, e));
         System.out.println("Donc avec TEACHING je vais filtrer seulment les relations avec cette type de relation");
+        System.out.println();
+        System.out.println("All M presents from a -> g : " + kg2.findElementsAssociated(a, g, "m"));
     }
 }
