@@ -285,11 +285,11 @@ public class KnowledgeGraph {
         System.out.println("DFS a -> g : " + kg2.dfs(a, g));
         System.out.println("DFS a -> n : " + kg2.dfs(a, n));
         System.out.println("DFS i -> o : " + kg2.dfs(i, o));
-
-        System.out.println("Combien O: " + kg2.occurrencesNodes(i, o, "o"));
-        System.out.println("Combien Z: " + kg2.occurrencesNodes(a, g, "z"));
-        System.out.println("Combien M: " + kg2.occurrencesNodes(a, g, "m"));
-
+        System.out.println();
+        System.out.println("Combien O : " + kg2.occurrencesNodes(i, o, "o"));
+        System.out.println("Combien Z : " + kg2.occurrencesNodes(a, g, "z"));
+        System.out.println("Combien M : " + kg2.occurrencesNodes(a, g, "m"));
+        System.out.println();
         System.out.println("TEACHING b -> e : " + kg2.find(b, e, Relatinos.TEACHING.getText()));
         System.out.println("BFS b -> e : " + kg2.bfs(b, e));
         System.out.println("Donc avec TEACHING je vais filtrer seulment les relations avec cette type de relation");
