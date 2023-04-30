@@ -1,22 +1,13 @@
-public class Teacher extends Person
+public class Teacher extends Node
 {
-    private String subject;
 
-    public Teacher(String name, int age, String subject)
+    public Teacher(String name)
     {
-        super(name, age);
-        this.subject = subject;
-    }
-
-    public String getSubject()
-    {
-        return subject;
+        super(name);
     }
 
     @Override
     public String toString() {
-        return "Teacher{" +
-        "subject ='" + subject +
-        '}';
+        return "Teacher{"+ getLabel() +"}";
     }
 }

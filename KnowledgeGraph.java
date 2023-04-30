@@ -1,9 +1,10 @@
+import java.security.Principal;
 import java.util.*;
 
 public class KnowledgeGraph {
 
     //relations pour les objects
-    public enum Relatinos {
+    public enum Relazioni {
         OWNERSHIP("ownership"),
         TEACHING("teaching"),
         ISCRIPTION("iscription"),
@@ -11,13 +12,13 @@ public class KnowledgeGraph {
 
         private final String text;
 
-        Relatinos(String text) {
-        this.text = text;
-    }
+        Relazioni(String text) {
+            this.text = text;
+        }
 
-    public String getText() {
-        return text;
-    }
+        public String getText() {
+            return text;
+        }
     }
 
     private Set<Node> nodes;
@@ -214,12 +215,7 @@ public class KnowledgeGraph {
    
     public static void main(String[] args) 
     {
-        /*Node agent = new Node("agent");
-        Node LeGreco = new Node("Le Greco");
-        Node Person = new Node("foaf:Person");
-        Node objet = new Node("objeti");
-        Node imageq = new Node("imageq");*/
-        Node a = new Node("a");
+        /*Node a = new Node("a");
         Node b = new Node("b");
         Node c = new Node("c");
         Node d = new Node("d");
@@ -244,17 +240,6 @@ public class KnowledgeGraph {
         Node m2 = new Node("m");
 
         KnowledgeGraph kg2 = new KnowledgeGraph();
-        /*kg2.addNode(agent);
-        kg2.addNode(LeGreco);
-        kg2.addNode(Person);
-        kg2.addNode(objet);
-        kg2.addNode(imageq);
-
-        kg2.addRelation(new Relation(agent, LeGreco,"foaf:name"));
-        kg2.addRelation(new Relation(agent, Person,"foaf:name"));
-        kg2.addRelation(new Relation(agent, objet,"dc:creator"));
-        kg2.addRelation(new Relation(objet, imageq,"foaf:depiction"));*/
-
         kg2.addNode(a);
         kg2.addNode(b);
         kg2.addNode(c);
@@ -298,17 +283,10 @@ public class KnowledgeGraph {
         kg2.addRelation(new Relation(j, n,"jn"));
         kg2.addRelation(new Relation(k, o,"ko"));
 
-        /*System.out.println("Relations de 'agent': " + kg2.getRelatedNodes(agent));
-        System.out.println("Relations de 'objetq': " + kg2.getRelatedNodes(objet));*/
-
         System.out.println("Relations de 'a': " + kg2.getRelatedNodes(a));
         System.out.println("Relations de 'f': " + kg2.getRelatedNodes(f));
 
         System.out.println("Relations de 'j': " + kg2.getRelatedNodes(j));
-
-        /*System.out.println(kg2.bfs(agent, imageq));
-        System.out.println(kg2.bfs(agent, Person));
-        System.out.println(kg2.bfs(LeGreco, imageq));*/
 
         System.out.println("BFS a -> c : " + kg2.bfs(a, c));
         System.out.println("BFS a -> g : " + kg2.bfs(a, g));
@@ -328,6 +306,7 @@ public class KnowledgeGraph {
         System.out.println("BFS b -> e : " + kg2.bfs(b, e));
         System.out.println("Donc avec TEACHING je vais filtrer seulment les relations avec cette type de relation");
         System.out.println();
-        System.out.println("All M presents from a -> g : " + kg2.findElementsAssociated(a, g, "m"));
+        System.out.println("All M presents from a -> g : " + kg2.findElementsAssociated(a, g, "m"));*/
+
     }
 }
