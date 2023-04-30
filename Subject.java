@@ -7,6 +7,6 @@ public class Subject extends Node
 
     @Override
     public String toString() {
-        return "Subject :"+ getLabel();
+        return "Subject{"+ getLabel() + "}";
     }
 }

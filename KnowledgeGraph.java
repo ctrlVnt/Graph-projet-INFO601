@@ -1,10 +1,7 @@
-import java.nio.file.WatchEvent;
-import java.security.Principal;
 import java.util.*;
 
 public class KnowledgeGraph {
 
-    //relations pour les objects
     public enum W3C {
         FOAF("FOAF"),
         RDF("RDF"),
@@ -69,6 +66,16 @@ public class KnowledgeGraph {
         return relatedNodes;
     }
 
+    public Set<Node> getRelatedNodesType(Node node, String label) {
+        Set<Node> relatedNodes = new HashSet<>();
+        for (Relation relation : relations) {
+            if (relation.getSource().equals(node) && relation.getW3c().equals(label)) {
+                relatedNodes.add(relation.getTarget());
+            }
+        }
+        return relatedNodes;
+    }
+
     //get all nodes related to x node BUT with label relation
     public Set<Node> getRelatedNodes(Node node, String label) {
         Set<Node> relatedNodes = new HashSet<>();
@@ -80,20 +87,16 @@ public class KnowledgeGraph {
         return relatedNodes;
     }
 
-    //BFS research alghoritm
-    public Set<Node> bfs(Node startNode, Node targetNode) {
+    //afficher all Graph
+    public Set<Node> afficheGraph(Node startNode) {
         Queue<Node> queue = new LinkedList<>();
-        Set<Node> visited = new HashSet<>();
+        Set<Node> visited =  new LinkedHashSet<>();
     
         queue.add(startNode);
         visited.add(startNode);
     
         while (!queue.isEmpty()) {
             Node currentNode = queue.poll();
-    
-            if (currentNode.equals(targetNode)) {
-                return visited;
-            }
     
             Set<Node> relatedNodes = getRelatedNodes(currentNode);
             for (Node relatedNode : relatedNodes) {
@@ -104,41 +107,13 @@ public class KnowledgeGraph {
             }
         }
     
-        return null;
+        return visited;
     }
 
-    //DFS research alghoritm
-    public Set<Node> dfs(Node startNode, Node targetNode) {
-        Set<Node> visited = new HashSet<>();
-        Stack<Node> stack = new Stack<>();
-        
-        stack.push(startNode);
-        
-        while (!stack.isEmpty()) {
-            Node currentNode = stack.pop();
-            
-            if (!visited.contains(currentNode)) {
-                visited.add(currentNode);
-                
-                if (currentNode.equals(targetNode)) {
-                    return visited;
-                }
-                
-                Set<Node> relatedNodes = getRelatedNodes(currentNode);
-                
-                for (Node relatedNode : relatedNodes) {
-                    stack.push(relatedNode);
-                }
-            }
-        }
-        
-        return null;
-    }
-
-    //Number of node with label string
-    public int occurrencesNodes(Node startNode, Node targetNode, String label) {
+    //nombre de node de une type
+    public int occurrencesNodes(Node startNode, Class label) {
         Queue<Node> queue = new LinkedList<>();
-        Set<Node> visited = new HashSet<>();
+        Set<Node> visited =  new LinkedHashSet<>();
 
         int count = 0;
     
@@ -148,18 +123,14 @@ public class KnowledgeGraph {
         while (!queue.isEmpty()) {
             Node currentNode = queue.poll();
     
-            if (currentNode.equals(targetNode)) {
-                return count;
-            }
-    
             Set<Node> relatedNodes = getRelatedNodes(currentNode);
             for (Node relatedNode : relatedNodes) {
-                
-                if(relatedNode.getLabel().equals(label)){
-                    count++;
-                }
-
                 if (!visited.contains(relatedNode)) {
+
+                    if(relatedNode.getClass().equals(label)){
+                        count++;
+                    }
+
                     visited.add(relatedNode);
                     queue.add(relatedNode);
                 }
@@ -169,10 +140,10 @@ public class KnowledgeGraph {
         return count;
     }
 
-    //find all nodes connected to startNode with label relation
-    public Set<Node> find(Node startNode, Node targetNode, String label) {
+    public Set<Node> afficheOccurrencesNodes(Node startNode, Class label) {
         Queue<Node> queue = new LinkedList<>();
-        Set<Node> visited = new HashSet<>();
+        Set<Node> visited =  new LinkedHashSet<>();
+        Set<Node> res =  new LinkedHashSet<>();
 
         queue.add(startNode);
         visited.add(startNode);
@@ -180,29 +151,31 @@ public class KnowledgeGraph {
         while (!queue.isEmpty()) {
             Node currentNode = queue.poll();
     
-            if (currentNode.equals(targetNode)) {
-                return visited;
-            }
-    
-            Set<Node> relatedNodes = getRelatedNodes(currentNode, label);
-
+            Set<Node> relatedNodes = getRelatedNodes(currentNode);
             for (Node relatedNode : relatedNodes) {
-
                 if (!visited.contains(relatedNode)) {
+
+                    if(relatedNode.getClass().equals(label)){
+                        res.add(relatedNode);
+                        Set<Node> tmp = getRelatedNodesType(relatedNode, W3C.SKOS.getText());
+                        for (Node i : tmp){
+                            res.add(i);
+                        }
+                    }
+
                     visited.add(relatedNode);
                     queue.add(relatedNode);
                 }
             }
         }
     
-        return null;
+        return res;
     }
 
-    //find all nodes with label proprierty in the graph
-    public Set<Node> findElementsAssociated(Node startNode, Node targetNode, String label) {
+    //affiche si existe une chemin ou pas
+    public Boolean existe(Node startNode, Node targetNode) {
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
-        Set<Node> res = new HashSet<>();
     
         queue.add(startNode);
         visited.add(startNode);
@@ -211,16 +184,11 @@ public class KnowledgeGraph {
             Node currentNode = queue.poll();
     
             if (currentNode.equals(targetNode)) {
-                return res;
+                return true;
             }
     
             Set<Node> relatedNodes = getRelatedNodes(currentNode);
             for (Node relatedNode : relatedNodes) {
-                
-                if(relatedNode.getLabel().equals(label)){
-                    res.add(currentNode);
-                }
-
                 if (!visited.contains(relatedNode)) {
                     visited.add(relatedNode);
                     queue.add(relatedNode);
@@ -228,7 +196,7 @@ public class KnowledgeGraph {
             }
         }
     
-        return null;
+        return false;
     }
 
    
@@ -247,6 +215,16 @@ public class KnowledgeGraph {
         Student Tom = new Student("Tom");
         Student Enzo = new Student("Enzo");
         Student Mathis = new Student("Mathis");
+        Teacher Cavalini = new Teacher("Cavalini");
+        Adresse rueBourget = new Adresse("34 rue du Bourget");
+        Adresse rueBourget2 = new Adresse("22 rue du Bourget");
+        Adresse rueJacob = new Adresse("33 rue de Jacob");
+        Age Aenzo = new Age("21");
+        Age Amathis = new Age("21");
+        Age Aclement = new Age("21");
+        Age Atom = new Age("20");
+        Age Ariccardo = new Age("23");
+        Age Aboris = new Age("21");
 
         KnowledgeGraph StudentGraph = new KnowledgeGraph();
         StudentGraph.addNode(Bourget);
@@ -262,7 +240,17 @@ public class KnowledgeGraph {
         StudentGraph.addNode(Tom);
         StudentGraph.addNode(Enzo);
         StudentGraph.addNode(Mathis);
-
+        StudentGraph.addNode(Cavalini);
+        StudentGraph.addNode(rueBourget);
+        StudentGraph.addNode(rueBourget2);
+        StudentGraph.addNode(rueJacob);
+        StudentGraph.addNode(Aenzo);
+        StudentGraph.addNode(Amathis);
+        StudentGraph.addNode(Aclement);
+        StudentGraph.addNode(Atom);
+        StudentGraph.addNode(Ariccardo);
+        StudentGraph.addNode(Aboris);
+        
         StudentGraph.addRelation(new Relation(Bourget, Usmb, W3C.RDF.getText(), Relat.LIEU.getText()));
         StudentGraph.addRelation(new Relation(Bourget, Jacob, W3C.RDF.getText(), Relat.LIEU.getText()));
         StudentGraph.addRelation(new Relation(Usmb, Info605, W3C.RDF.getText(), Relat.MATIERE.getText()));
@@ -273,13 +261,58 @@ public class KnowledgeGraph {
         StudentGraph.addRelation(new Relation(Wayntal, Riccardo, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
         StudentGraph.addRelation(new Relation(Boris, Riccardo, W3C.FOAF.getText(), Relat.AMI.getText()));
 
-        System.out.println("BFS Bourget -> Riccardo : " + StudentGraph.dfs(Bourget,Riccardo));
-        System.out.println("BFS Bourget -> Riccardo : " + StudentGraph.getRelatedNodes(Wayntal));
+        StudentGraph.addRelation(new Relation(Info605, Cavalini, W3C.FOAF.getText(), Relat.PROFESSEUR.getText()));
 
+        StudentGraph.addRelation(new Relation(Roche, Enzo, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
+        StudentGraph.addRelation(new Relation(Roche, Mathis, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
+        StudentGraph.addRelation(new Relation(Roche, Clement, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
+        StudentGraph.addRelation(new Relation(Roche, Tom, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
 
+        StudentGraph.addRelation(new Relation(Tom, Atom, W3C.SKOS.getText(), Relat.AGE.getText()));
+        StudentGraph.addRelation(new Relation(Clement, Aclement, W3C.SKOS.getText(), Relat.AGE.getText()));
+        StudentGraph.addRelation(new Relation(Mathis, Amathis, W3C.SKOS.getText(), Relat.AGE.getText()));
+        StudentGraph.addRelation(new Relation(Enzo, Aenzo, W3C.SKOS.getText(), Relat.AGE.getText()));
+        StudentGraph.addRelation(new Relation(Riccardo, Ariccardo, W3C.SKOS.getText(), Relat.AGE.getText()));
+        StudentGraph.addRelation(new Relation(Boris, Aboris, W3C.SKOS.getText(), Relat.AGE.getText()));
 
+        StudentGraph.addRelation(new Relation(Usmb, rueBourget2, W3C.SKOS.getText(), Relat.ADRESSE.getText()));
+        StudentGraph.addRelation(new Relation(Jacob, rueJacob, W3C.SKOS.getText(), Relat.ADRESSE.getText()));
+        StudentGraph.addRelation(new Relation(Cavalini, rueBourget, W3C.SKOS.getText(), Relat.ADRESSE.getText()));
 
-        
+        StudentGraph.addRelation(new Relation(Cavalini, Wayntal, W3C.FOAF.getText(), Relat.AMI.getText()));
+        StudentGraph.addRelation(new Relation(Wayntal, Cavalini, W3C.FOAF.getText(), Relat.AMI.getText()));
 
+        System.out.println("Le Graph : " + StudentGraph.afficheGraph(Bourget));
+        System.out.println();
+        System.out.println("Combient etudiant au Burget :" + StudentGraph.occurrencesNodes(Bourget, Student.class));
+        System.out.println("toutes les relations de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal));
+        System.out.println();
+        System.out.println("Boris est dans le Jacob? :" + StudentGraph.existe(Jacob, Boris));
+        System.out.println("Boris est dans le USMB? :" + StudentGraph.existe(Usmb, Boris));
+        System.out.println();
+        System.out.println("Les relations des amitié de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.AMI.getText()));
+        System.out.println("Les relations des ensegnement de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.ENSEIGNE.getText()));
+        System.out.println();
+        System.out.println("Les etudiant au Burget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Student.class));
+        System.out.println("Les prof au Burget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Teacher.class));
+    }
+
+    static class OrderedSet<T> extends LinkedHashSet<T> {
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+            boolean first = true;
+            for (T element : this) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(element.toString());
+                first = false;
+            }
+            sb.append("]");
+            return sb.toString();
+        }
     }
 }

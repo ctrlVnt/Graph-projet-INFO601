@@ -26,7 +26,7 @@ public class Relation {
         return name;
     }
 
-    private String getW3c(){
+    public String getW3c(){
         return w3c;
     }
 
