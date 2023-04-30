@@ -88,9 +88,9 @@ public class KnowledgeGraph {
     }
 
     //afficher all Graph
-    public Set<Node> afficheGraph(Node startNode) {
+    public ArrayList<Node> afficheGraph(Node startNode) {
         Queue<Node> queue = new LinkedList<>();
-        Set<Node> visited =  new LinkedHashSet<>();
+        ArrayList<Node> visited =  new ArrayList<Node>();
     
         queue.add(startNode);
         visited.add(startNode);
@@ -140,10 +140,11 @@ public class KnowledgeGraph {
         return count;
     }
 
-    public Set<Node> afficheOccurrencesNodes(Node startNode, Class label) {
+    //Affiche les occurrence de la class label
+    public ArrayList<Node> afficheOccurrencesNodes(Node startNode, Class label) {
         Queue<Node> queue = new LinkedList<>();
         Set<Node> visited =  new LinkedHashSet<>();
-        Set<Node> res =  new LinkedHashSet<>();
+        ArrayList<Node> res =  new ArrayList<Node>();
 
         queue.add(startNode);
         visited.add(startNode);
