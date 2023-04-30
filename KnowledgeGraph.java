@@ -88,12 +88,13 @@ public class KnowledgeGraph {
     }
 
     //afficher all Graph
-    public ArrayList<Node> afficheGraph(Node startNode) {
+    public void afficheGraph(Node startNode) {
         Queue<Node> queue = new LinkedList<>();
         ArrayList<Node> visited =  new ArrayList<Node>();
     
         queue.add(startNode);
         visited.add(startNode);
+        System.out.print(startNode + " -> [ ");
     
         while (!queue.isEmpty()) {
             Node currentNode = queue.poll();
@@ -101,13 +102,13 @@ public class KnowledgeGraph {
             Set<Node> relatedNodes = getRelatedNodes(currentNode);
             for (Node relatedNode : relatedNodes) {
                 if (!visited.contains(relatedNode)) {
+                    System.out.print(relatedNode + " | ");
                     visited.add(relatedNode);
                     queue.add(relatedNode);
                 }
             }
         }
-    
-        return visited;
+        System.out.print(" ]");
     }
 
     //nombre de node de une type
@@ -283,7 +284,8 @@ public class KnowledgeGraph {
         StudentGraph.addRelation(new Relation(Cavalini, Wayntal, W3C.FOAF.getText(), Relat.AMI.getText()));
         StudentGraph.addRelation(new Relation(Wayntal, Cavalini, W3C.FOAF.getText(), Relat.AMI.getText()));
 
-        System.out.println("Le Graph : " + StudentGraph.afficheGraph(Bourget));
+        System.out.println("Le Graph : ");
+        StudentGraph.afficheGraph(Bourget);
         System.out.println();
         System.out.println("Combient etudiant au Burget :" + StudentGraph.occurrencesNodes(Bourget, Student.class));
         System.out.println("toutes les relations de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal));
