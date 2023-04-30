@@ -1,18 +1,37 @@
+import java.nio.file.WatchEvent;
 import java.security.Principal;
 import java.util.*;
 
 public class KnowledgeGraph {
 
     //relations pour les objects
-    public enum Relazioni {
-        OWNERSHIP("ownership"),
-        TEACHING("teaching"),
-        ISCRIPTION("iscription"),
-        EMPLOYEE("employee");
+    public enum W3C {
+        FOAF("FOAF"),
+        RDF("RDF"),
+        SKOS("SKOS");
+        private final String text;
+
+        W3C(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+    }
+
+    public enum Relat {
+        AMI("Ami"),
+        MATIERE("Matiere"),
+        PROFESSEUR("Professeur"),
+        ENSEIGNE("Enseigne"),
+        AGE("Age"),
+        ADRESSE("Adresse"),
+        LIEU("Lieu");
 
         private final String text;
 
-        Relazioni(String text) {
+        Relat(String text) {
             this.text = text;
         }
 
@@ -215,98 +234,52 @@ public class KnowledgeGraph {
    
     public static void main(String[] args) 
     {
-        /*Node a = new Node("a");
-        Node b = new Node("b");
-        Node c = new Node("c");
-        Node d = new Node("d");
-        Node e = new Node("e");
-        Node f = new Node("f");
-        Node g = new Node("g");
-        Node h = new Node("h");
-        Node i = new Node("i");
-        Node j = new Node("j");
-        Node k = new Node("k");
-        Node l = new Node("l");
-        Node m = new Node("m");
-        Node n = new Node("n");
-        Node o = new Node("o");
-        Node p = new Node("p");
-        Node q = new Node("q");
-        Node r = new Node("r");
-        Node s = new Node("s");
-        Node t = new Node("t");
-        Node m3 = new Node("m");
-        Node m1 = new Node("m");
-        Node m2 = new Node("m");
+        City Bourget = new City("Bourget");
+        University Usmb = new University("Usmb");
+        University Jacob = new University("Jacob");
+        Subject Info605 = new Subject("info605");
+        Subject Info606 = new Subject("info606");
+        Teacher Roche = new Teacher("Roche");
+        Teacher Wayntal = new Teacher("Wayntal");
+        Student Boris = new Student("Boris");
+        Student Riccardo = new Student("Riccardo");
+        Student Clement = new Student("Clement");
+        Student Tom = new Student("Tom");
+        Student Enzo = new Student("Enzo");
+        Student Mathis = new Student("Mathis");
 
-        KnowledgeGraph kg2 = new KnowledgeGraph();
-        kg2.addNode(a);
-        kg2.addNode(b);
-        kg2.addNode(c);
-        kg2.addNode(d);
-        kg2.addNode(e);
-        kg2.addNode(f);
-        kg2.addNode(g);
-        kg2.addNode(h);
-        kg2.addNode(i);
-        kg2.addNode(j);
-        kg2.addNode(k);
-        kg2.addNode(l);
-        kg2.addNode(m);
-        kg2.addNode(n);
-        kg2.addNode(o);
-        kg2.addNode(p);
-        kg2.addNode(q);
-        kg2.addNode(r);
-        kg2.addNode(s);
-        kg2.addNode(t);
-        kg2.addNode(m1);
-        kg2.addNode(m2);
-        kg2.addNode(m3);
+        KnowledgeGraph StudentGraph = new KnowledgeGraph();
+        StudentGraph.addNode(Bourget);
+        StudentGraph.addNode(Usmb);
+        StudentGraph.addNode(Jacob);
+        StudentGraph.addNode(Info605);
+        StudentGraph.addNode(Info606);
+        StudentGraph.addNode(Roche);
+        StudentGraph.addNode(Wayntal);
+        StudentGraph.addNode(Boris);
+        StudentGraph.addNode(Riccardo);
+        StudentGraph.addNode(Clement);
+        StudentGraph.addNode(Tom);
+        StudentGraph.addNode(Enzo);
+        StudentGraph.addNode(Mathis);
 
-        kg2.addRelation(new Relation(a, b,Relatinos.OWNERSHIP.getText()));
-        kg2.addRelation(new Relation(b, c,Relatinos.TEACHING.getText()));
-        kg2.addRelation(new Relation(c, d,Relatinos.ISCRIPTION.getText()));
-        kg2.addRelation(new Relation(b, h,Relatinos.TEACHING.getText()));
-        kg2.addRelation(new Relation(h, p,Relatinos.EMPLOYEE.getText()));
-        kg2.addRelation(new Relation(c, e,Relatinos.TEACHING.getText()));
-        kg2.addRelation(new Relation(c, f,Relatinos.EMPLOYEE.getText()));
-        kg2.addRelation(new Relation(f, l,Relatinos.ISCRIPTION.getText()));
-        kg2.addRelation(new Relation(f, g,Relatinos.ISCRIPTION.getText()));
-        kg2.addRelation(new Relation(l, m,Relatinos.TEACHING.getText()));
-        kg2.addRelation(new Relation(f, m1,Relatinos.OWNERSHIP.getText()));
-        kg2.addRelation(new Relation(p, m2,Relatinos.OWNERSHIP.getText()));
-        kg2.addRelation(new Relation(a, m3,Relatinos.ISCRIPTION.getText()));
+        StudentGraph.addRelation(new Relation(Bourget, Usmb, W3C.RDF.getText(), Relat.LIEU.getText()));
+        StudentGraph.addRelation(new Relation(Bourget, Jacob, W3C.RDF.getText(), Relat.LIEU.getText()));
+        StudentGraph.addRelation(new Relation(Usmb, Info605, W3C.RDF.getText(), Relat.MATIERE.getText()));
+        StudentGraph.addRelation(new Relation(Usmb, Info606, W3C.RDF.getText(), Relat.MATIERE.getText()));
+        StudentGraph.addRelation(new Relation(Info605, Wayntal, W3C.FOAF.getText(), Relat.PROFESSEUR.getText()));
+        StudentGraph.addRelation(new Relation(Info606, Roche, W3C.FOAF.getText(), Relat.PROFESSEUR.getText()));
+        StudentGraph.addRelation(new Relation(Wayntal, Boris, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
+        StudentGraph.addRelation(new Relation(Wayntal, Riccardo, W3C.FOAF.getText(), Relat.ENSEIGNE.getText()));
+        StudentGraph.addRelation(new Relation(Boris, Riccardo, W3C.FOAF.getText(), Relat.AMI.getText()));
 
-        kg2.addRelation(new Relation(i, j,"ij"));
-        kg2.addRelation(new Relation(j, k,"jk"));
-        kg2.addRelation(new Relation(j, n,"jn"));
-        kg2.addRelation(new Relation(k, o,"ko"));
+        System.out.println("BFS Bourget -> Riccardo : " + StudentGraph.dfs(Bourget,Riccardo));
+        System.out.println("BFS Bourget -> Riccardo : " + StudentGraph.getRelatedNodes(Wayntal));
 
-        System.out.println("Relations de 'a': " + kg2.getRelatedNodes(a));
-        System.out.println("Relations de 'f': " + kg2.getRelatedNodes(f));
 
-        System.out.println("Relations de 'j': " + kg2.getRelatedNodes(j));
 
-        System.out.println("BFS a -> c : " + kg2.bfs(a, c));
-        System.out.println("BFS a -> g : " + kg2.bfs(a, g));
-        System.out.println("BFS a -> n : " + kg2.bfs(a, n));
-        System.out.println("BFS i -> o : " + kg2.bfs(i, o));
-        System.out.println();
-        System.out.println("DFS a -> c : " + kg2.dfs(a, c));
-        System.out.println("DFS a -> g : " + kg2.dfs(a, g));
-        System.out.println("DFS a -> n : " + kg2.dfs(a, n));
-        System.out.println("DFS i -> o : " + kg2.dfs(i, o));
-        System.out.println();
-        System.out.println("Combien O : " + kg2.occurrencesNodes(i, o, "o"));
-        System.out.println("Combien Z : " + kg2.occurrencesNodes(a, g, "z"));
-        System.out.println("Combien M : " + kg2.occurrencesNodes(a, g, "m"));
-        System.out.println();
-        System.out.println("TEACHING b -> e : " + kg2.find(b, e, Relatinos.TEACHING.getText()));
-        System.out.println("BFS b -> e : " + kg2.bfs(b, e));
-        System.out.println("Donc avec TEACHING je vais filtrer seulment les relations avec cette type de relation");
-        System.out.println();
-        System.out.println("All M presents from a -> g : " + kg2.findElementsAssociated(a, g, "m"));*/
+
+        
 
     }
 }
