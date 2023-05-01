@@ -109,6 +109,7 @@ public class KnowledgeGraph {
             }
         }
         System.out.print(" ]");
+        System.out.println();
     }
 
     //nombre de node de une type
@@ -288,34 +289,15 @@ public class KnowledgeGraph {
         StudentGraph.afficheGraph(Bourget);
         System.out.println();
         System.out.println("Combient etudiant au Burget :" + StudentGraph.occurrencesNodes(Bourget, Student.class));
-        System.out.println("toutes les relations de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal));
         System.out.println();
         System.out.println("Boris est dans le Jacob? :" + StudentGraph.existe(Jacob, Boris));
         System.out.println("Boris est dans le USMB? :" + StudentGraph.existe(Usmb, Boris));
         System.out.println();
+        System.out.println("Toutes les relations de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal));
         System.out.println("Les relations des amitié de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.AMI.getText()));
         System.out.println("Les relations des ensegnement de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.ENSEIGNE.getText()));
         System.out.println();
         System.out.println("Les etudiant au Burget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Student.class));
         System.out.println("Les prof au Burget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Teacher.class));
-    }
-
-    static class OrderedSet<T> extends LinkedHashSet<T> {
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("[");
-            boolean first = true;
-            for (T element : this) {
-                if (!first) {
-                    sb.append(", ");
-                }
-                sb.append(element.toString());
-                first = false;
-            }
-            sb.append("]");
-            return sb.toString();
-        }
     }
 }
