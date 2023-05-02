@@ -285,19 +285,19 @@ public class KnowledgeGraph {
         StudentGraph.addRelation(new Relation(Cavalini, Wayntal, W3C.FOAF.getText(), Relat.AMI.getText()));
         StudentGraph.addRelation(new Relation(Wayntal, Cavalini, W3C.FOAF.getText(), Relat.AMI.getText()));
 
-        System.out.println("Le Graph : ");
+        System.out.println("Le Knowledge Graph : ");
         StudentGraph.afficheGraph(Bourget);
         System.out.println();
-        System.out.println("Combient etudiant au Burget :" + StudentGraph.occurrencesNodes(Bourget, Student.class));
+        System.out.println("Combient d'étudiants au Bourget :" + StudentGraph.occurrencesNodes(Bourget, Student.class));
         System.out.println();
-        System.out.println("Boris est dans le Jacob? :" + StudentGraph.existe(Jacob, Boris));
-        System.out.println("Boris est dans le USMB? :" + StudentGraph.existe(Usmb, Boris));
+        System.out.println("Boris est à Jacob? :" + StudentGraph.existe(Jacob, Boris));
+        System.out.println("Boris est à l'USMB? :" + StudentGraph.existe(Usmb, Boris));
         System.out.println();
-        System.out.println("Toutes les relations de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal));
-        System.out.println("Les relations des amitié de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.AMI.getText()));
-        System.out.println("Les relations des ensegnement de Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.ENSEIGNE.getText()));
+        System.out.println("Toutes les relations depuis le noeud M.Wayntal :" + StudentGraph.getRelatedNodes(Wayntal));
+        System.out.println("Les relations d'amitié de M.Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.AMI.getText()));
+        System.out.println("Les relations d'ensegnements de M.Wayntal :" + StudentGraph.getRelatedNodes(Wayntal, Relat.ENSEIGNE.getText()));
         System.out.println();
-        System.out.println("Les etudiant au Burget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Student.class));
-        System.out.println("Les prof au Burget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Teacher.class));
+        System.out.println("Les etudiants au Bourget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Student.class));
+        System.out.println("Les profs au Bourget :" + StudentGraph.afficheOccurrencesNodes(Bourget, Teacher.class));
     }
 }
